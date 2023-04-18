@@ -1,9 +1,10 @@
+import random
+
 import pyautogui
 import time
 import imagehash
 from PIL import Image
-
-# import threading
+import threading
 
 # x, y, width, height, difference
 
@@ -19,6 +20,9 @@ x = y = width = height = diff = 0
 doCheck = True
 did10 = doComm = doCalc = False
 answer = None
+targetRed = {}
+targetBlack = {}
+targetGreen = {}
 
 
 def reqs(arg):
@@ -73,8 +77,35 @@ def shorten():
 	lastShort.append(str(bulk) + str(lastRolls[-1]))
 
 
+def start_threads(n):
+	for thr in range(1, n+1):
+		thread_name = "simulationThread" + str(thr)
+		t = threading.Thread(name=thread_name, target=thread_function, args=(thr,))
+		t.start()
+
+
+def thread_function(num):
+	global targetRed, targetGreen, targetBlack
+	print("Thread Number " + str(num) + " ----------------- \n")
+	if last2col[0] == "g":
+		print("last roll was green")
+	elif last2col[0] == "r":
+		print("last roll was red")
+	elif last2col[0] == "b":
+		print("last roll was black")
+
+
+
 out100 = reqs("show last 100 basic? ")
 comb100 = reqs("show combined? ")  # TODO
+loadSeed = reqs("load a seed? ")
+numSimulations = int(input("Number of threads: "))
+
+if not loadSeed:
+	for o in range(1, numSimulations + 1):
+		targetRed[o] = round(random.uniform(0, 1), 4)
+		targetBlack[o] = round(random.uniform(0, 1), 4)
+		targetGreen[o] = round(random.uniform(0, 1), 4)
 
 while True:
 
@@ -109,18 +140,20 @@ while True:
 
 		# Probability calculations
 
-		if last2col[0] != "g":
- 	 		probabilitySameCol = (chances[0] / 15) ** lastam
-		else: 
+		if last2col[0] != "g":
+			probabilitySameCol = (chances[0] / 15) ** lastam
+		else:
 			probabilitySameCol = chances[0] / 15
-  		probabilityGreen = 1 - ((15 - chances[2]) / 15)
-  		probabilityOtherCol = 1 - probabilityGreen - probabilitySameCol
+		probabilityGreen = 1 - ((15 - chances[2]) / 15)
+		probabilityOtherCol = 1 - probabilityGreen - probabilitySameCol
 		print("probability Green: " + str(probabilityGreen))
 		print("probability Other color: " + str(probabilityOtherCol))
-		
+
 		# generation instances
-		
-		# use the percent substitut thing 
+
+		start_threads(numSimulations)
+
+		# use the percent substitute thing
 
 		time.sleep(1)
 		doCalc = False
