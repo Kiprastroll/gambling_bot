@@ -2,14 +2,15 @@ import pyautogui
 import time
 import imagehash
 from PIL import Image
-#import threading
+
+# import threading
 
 # x, y, width, height, difference
 
 previousDimensions = [461, 227, 32, 32, 8]
 checkRoll = [1126, 574, 11, 15, 0]
 currentRoll = [900, 400, 100, 100, 0]
-chances = [7, 2, 1]
+chances = [7, 2, 1]  # out of 15
 examples = ["exbb", "exbf", "exgb", "exrb", "exrf"]
 naming = ["prevRoll", "check", "current", "undefined"]
 lastRolls = []
@@ -82,7 +83,7 @@ while True:
 	elif doCalc:
 		print("Calculations n other shit")
 
-
+		# last roll list creation
 		if not did10:
 			for i in range(10):
 				for j in range(5):
@@ -96,18 +97,21 @@ while True:
 		if len(lastRolls) > 100:
 			del lastRolls[-1]
 
+		# Parameter calculations
 
-		if out100:
-			shorten()
-
-
+		shorten()
 		lastam = int(lastShort[0][:1])
 		last2col = [lastShort[0][:2][1:], lastShort[1][:2][1:]]
-		print(str(last2col))
+		print(str(last2col))  # last 2 colors
 		if last2col[0] == last2col[1]:
 			lastam = lastam + int(lastShort[1][:1])
-		print(str(lastam))
+		print(str(lastam))  # last roll amount
 
+		# Probability calculations
+
+		if last2col[0] != "g":
+			probabilitySameCol = (chances[0] / 15) ** lastam
+			print(str(probabilitySameCol))
 
 		time.sleep(1)
 		doCalc = False
