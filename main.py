@@ -115,8 +115,8 @@ while True:
 			probabilitySameCol = chances[0] / 15
   		probabilityGreen = 1 - ((15 - chances[2]) / 15)
   		probabilityOtherCol = 1 - probabilityGreen - probabilitySameCol
-		print("probability Green: " + probabilityGreen)
-		print("probability Other color: " + probabilityOtherCol)
+		print("probability Green: " + str(probabilityGreen))
+		print("probability Other color: " + str(probabilityOtherCol))
 		
 		# generation instances
 		
