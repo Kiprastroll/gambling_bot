@@ -111,9 +111,16 @@ while True:
 
 		if last2col[0] != "g":
  	 		probabilitySameCol = (chances[0] / 15) ** lastam
- 	 		print(str(probabilitySameCol))
+		else: 
+			probabilitySameCol = chances[0] / 15
   		probabilityGreen = 1 - ((15 - chances[2]) / 15)
   		probabilityOtherCol = 1 - probabilityGreen - probabilitySameCol
+		print("probability Green: " + probabilityGreen)
+		print("probability Other color: " + probabilityOtherCol)
+		
+		# generation instances
+		
+		# use the percent substitut thing 
 
 		time.sleep(1)
 		doCalc = False
